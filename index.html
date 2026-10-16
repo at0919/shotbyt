@@ -1,120 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shotByT | Coming Soon</title>
-    <link rel="icon" type="image/png" href="favicon.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shotByT — Aerial photo &amp; video</title>
+  <meta name="description" content="shotByT — drone photography and aerial video. Recording the world from a different perspective.">
+  <meta property="og:title" content="shotByT — Aerial photo & video">
+  <meta property="og:description" content="Recording the world from a different perspective.">
+  <meta property="og:image" content="assets/logo-dark.png">
+  <meta name="theme-color" content="#f4f1ea">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0b0b0b;
-            color: #f5f5f5;
-            font-family: Arial, Helvetica, sans-serif;
-            overflow: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(
-                circle,
-                rgba(255, 255, 255, 0.07),
-                transparent 70%
-            );
-            pointer-events: none;
-        }
-
-        .container {
-            text-align: center;
-            padding: 30px;
-            z-index: 1;
-            animation: fadeIn 1.2s ease forwards;
-        }
-
-        .logo {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 700;
-            letter-spacing: -3px;
-        }
-
-        .logo span {
-            color: #888;
-            font-weight: 300;
-        }
-
-        .line {
-            width: 45px;
-            height: 2px;
-            background: #f5f5f5;
-            margin: 28px auto;
-        }
-
-        h2 {
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        p {
-            color: #888;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            line-height: 1.8;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: #555;
-            text-transform: uppercase;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600&family=Michroma&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <main class="container">
-        <h1 class="logo">shotBy<span>T.</span></h1>
+  <!-- Topographic background -->
+  <canvas id="topo" aria-hidden="true"></canvas>
 
-        <div class="line"></div>
+  <!-- Altimeter: altitude drops as you scroll down the page -->
+  <aside class="altimeter" aria-hidden="true">
+    <div class="alt-scale"><div class="alt-ticks"></div><div class="alt-needle"></div></div>
+    <div class="alt-readout"><span class="alt-label">ALT</span><span id="altValue">400</span><span class="alt-unit">ft</span></div>
+  </aside>
 
-        <h2>Coming Soon</h2>
+  <header class="nav">
+    <a href="#top" class="nav-logo" aria-label="shotByT home"><img src="assets/logo-dark.png" alt="shotByT"></a>
+    <nav class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-ig" id="navIg" href="#" target="_blank" rel="noopener">Instagram ↗</a>
+    </nav>
+  </header>
 
-        <p>
-            Recording the world from a different perspective.<br>
-            Something worth capturing.
-        </p>
-    </main>
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="dot"></span> Aerial photo &amp; video</p>
+        <h1>The world,<br><em>from above.</em></h1>
+        <p class="hero-sub">Recording the world from a different perspective — one flight at a time.</p>
+        <div class="hero-actions">
+          <a href="#work" class="btn btn-ink">View the flight log</a>
+          <a href="#" class="btn btn-ghost" id="heroIg" target="_blank" rel="noopener">@shotbyt</a>
+        </div>
+      </div>
 
-    <footer class="footer">
-        © 2026 shotByT
-    </footer>
+      <figure class="viewfinder reveal" id="viewfinder">
+        <div class="vf-media" id="vfMedia"></div>
+        <div class="vf-hud" aria-hidden="true">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <div class="hud-top">
+            <span><i class="rec"></i>REC <span id="timecode">00:00:00</span></span>
+            <span>4K · 30FPS</span>
+          </div>
+          <div class="crosshair"></div>
+          <div class="hud-bottom">
+            <span id="vfCoords">—</span>
+            <span>ALT <b id="vfAlt">120</b>M</span>
+          </div>
+        </div>
+        <figcaption id="vfCaption"></figcaption>
+      </figure>
+    </section>
+
+    <!-- Location ticker -->
+    <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+
+    <!-- WORK -->
+    <section class="work" id="work">
+      <div class="section-head reveal">
+        <p class="label">01 — Flight log</p>
+        <h2>Recent <em>shots</em></h2>
+        <div class="filters" role="tablist" aria-label="Filter shots">
+          <button class="chip active" data-filter="all" role="tab" aria-selected="true">All <sup id="cAll"></sup></button>
+          <button class="chip" data-filter="photo" role="tab" aria-selected="false">Photos <sup id="cPhoto"></sup></button>
+          <button class="chip" data-filter="video" role="tab" aria-selected="false">Videos <sup id="cVideo"></sup></button>
+        </div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="about-mark reveal"><img src="assets/mark.png" alt=""></div>
+      <div class="about-copy reveal">
+        <p class="label">02 — The pilot</p>
+        <h2>Same places.<br><em>New angle.</em></h2>
+        <p>shotByT is a drone photo &amp; video project about seeing familiar places the way birds do — patterns in fields, the shape of a coastline, a city waking up at sunrise. Every frame here was shot from the air.</p>
+        <dl class="stats">
+          <div><dt>Photos</dt><dd id="sPhotos">0</dd></div>
+          <div><dt>Videos</dt><dd id="sVideos">0</dd></div>
+          <div><dt>Locations</dt><dd id="sPlaces">0</dd></div>
+        </dl>
+        <p class="base" id="homeBase"></p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <p class="label reveal">03 — Say hi</p>
+      <h2 class="reveal">Follow the <em>flight.</em></h2>
+      <a class="big-ig reveal" id="bigIg" href="#" target="_blank" rel="noopener">@shotbyt <span>↗</span></a>
+      <p class="contact-note reveal" id="emailLine"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year"></span> shotByT</span>
+    <span class="landed">ALT 0 ft — landed.</span>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Shot viewer" hidden>
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-nav lb-prev" aria-label="Previous">←</button>
+    <div class="lb-stage" id="lbStage"></div>
+    <button class="lb-nav lb-next" aria-label="Next">→</button>
+    <div class="lb-meta" id="lbMeta"></div>
+  </div>
+
+  <script src="shots.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
