@@ -5,7 +5,7 @@
 
 /* ---- Site settings ---------------------------------------------------- */
 window.SITE = {
-  instagram: "shotbyt",          // your Instagram handle, without the @
+  instagram: "shotbyt.jpg",          // your Instagram handle, without the @
   email: "",                     // optional, e.g. "hello@shotbyt.com" (leave "" to hide)
   pilot: "T",                    // how you want to be credited
   homeBase: "Ottawa, ON"         // shown in the About section (change or leave "")
