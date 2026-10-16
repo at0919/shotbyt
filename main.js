@@ -6,7 +6,7 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Links & text from settings ---------- */
-  const handle = (SITE.instagram || "shotbyt").replace(/^@/, "");
+  const handle = (SITE.instagram || "shotbyt.jpg").replace(/^@/, "");
   const igUrl = `https://instagram.com/${handle}`;
   ["#navIg", "#heroIg", "#bigIg"].forEach(id => { const a = $(id); if (a) a.href = igUrl; });
   $("#heroIg").textContent = "@" + handle;
